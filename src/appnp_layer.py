@@ -178,5 +178,5 @@ class APPNPModel(torch.nn.Module):
                 localized_predictions = (1-self.args.alpha)*new_features
                 localized_predictions = localized_predictions + self.args.alpha*latent_features_2
             self.predictions = localized_predictions
-        self.predictions = torch.nn.functional.log_softmax(self.predictions, dim=1)
-        return self.predictions
+        # self.predictions = torch.nn.functional.log_softmax(self.predictions, dim=1)
+        return self.predictions.view(-1)

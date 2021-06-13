@@ -8,6 +8,17 @@ import networkx as nx
 from scipy import sparse
 from texttable import Texttable
 
+def rand_split(x, ps):
+    assert abs(sum(ps) - 1) < 1.0e-10
+
+    shuffled_x = np.random.permutation(x)
+    n = len(shuffled_x)
+    pr = lambda p: int(np.ceil(p*n))
+
+    cs = np.cumsum([0] + ps)
+
+    return tuple(shuffled_x[pr(cs[i]):pr(cs[i+1])] for i in range(len(ps)))
+
 def tab_printer(args):
     """
     Function to print the logs in a nice tabular format.
@@ -47,6 +58,10 @@ def target_reader(path):
     """
     target = np.array(pd.read_csv(path)["target"])
     return target
+
+def attribute_reader(path):
+    attributes = pd.read_csv(path)
+    return attributes
 
 def create_adjacency_matrix(graph):
     """
